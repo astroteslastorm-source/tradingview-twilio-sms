@@ -29,7 +29,7 @@ def check_email():
     mail.login(EMAIL, PASSWORD)
     mail.select("inbox")
 
-    status, messages = mail.search(None, 'UNSEEN FROM "noreply@tradingview.com"')
+        status, messages = mail.search(None, 'UNSEEN')
     email_ids = messages[0].split()
 
     for e_id in email_ids:
