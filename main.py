@@ -6,7 +6,7 @@ from twilio.rest import Client
 
 # Gmail
 EMAIL = os.environ.get("EMAIL", "tradeorage100@gmail.com")
-PASSWORD = os.environ.get("PASSWORD", "67@Rbol!R")
+PASSWORD = os.environ.get("PASSWORD", "sfmjebfhcuouyhws")
 
 # Twilio
 ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "AC1c9727b1d5a143d2a0ff83ccb3ed59bf")
