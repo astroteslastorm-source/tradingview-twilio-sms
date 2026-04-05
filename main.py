@@ -22,14 +22,14 @@ def send_sms(message):
         from_=FROM_NUMBER,
         to=TO_NUMBER
     )
-    print(f"SMS envoye: {message}")
+    print(f"SMS envoye: {message}", flush=True)
 
 def check_email():
     mail = imaplib.IMAP4_SSL("imap.gmail.com")
     mail.login(EMAIL, PASSWORD)
     mail.select("inbox")
 
-        status, messages = mail.search(None, 'UNSEEN')
+    status, messages = mail.search(None, 'UNSEEN')
     email_ids = messages[0].split()
 
     for e_id in email_ids:
@@ -45,5 +45,5 @@ while True:
     try:
         check_email()
     except Exception as e:
-        print(f"Erreur: {e}")
-    time.sleep(60)
+        print(f"Erreur: {e}", flush=True)
+    time.sleep(30)
