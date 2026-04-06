@@ -13,8 +13,12 @@ AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN", "")
 FROM_NUMBER = os.environ.get("TWILIO_FROM_NUMBER", "")
 TO_NUMBER = os.environ.get("TWILIO_TO_NUMBER", "")
 
+# Serveur IMAP Zoho
+IMAP_SERVER = "imap.zohocloud.ca"
+IMAP_PORT = 993
+
 # Validation au demarrage
-print("=== Demarrage TradingView -> SMS ===", flush=True)
+print("=== Demarrage TradingView -> SMS (Zoho) ===", flush=True)
 print(f"EMAIL: {'OUI' if EMAIL else 'NON'}", flush=True)
 print(f"PASSWORD: {'OUI' if PASSWORD else 'NON'}", flush=True)
 print(f"TWILIO_ACCOUNT_SID: {'OUI' if ACCOUNT_SID else 'NON'}", flush=True)
@@ -40,8 +44,7 @@ if missing:
     print(f"ERREUR: Variables manquantes: {', '.join(missing)}", flush=True)
     sys.exit(1)
 
-clean_password = PASSWORD.replace(" ", "")
-print(f"Password longueur: {len(clean_password)} chars", flush=True)
+print(f"Password longueur: {len(PASSWORD)} chars", flush=True)
 
 # Client Twilio
 try:
@@ -69,9 +72,9 @@ def send_sms(message):
 def check_email():
     mail = None
     try:
-        mail = imaplib.IMAP4_SSL("imap.gmail.com", 993)
-        mail.login(EMAIL, clean_password)
-        print("Connexion Gmail OK", flush=True)
+        mail = imaplib.IMAP4_SSL(IMAP_SERVER, IMAP_PORT)
+        mail.login(EMAIL, PASSWORD)
+        print("Connexion Zoho OK", flush=True)
         mail.select("inbox")
 
         status, messages = mail.search(None, 'UNSEEN')
@@ -98,8 +101,7 @@ def check_email():
                 print(f"Erreur email {e_id}: {e}", flush=True)
 
     except imaplib.IMAP4.error as e:
-        print(f"ERREUR IMAP auth: {e}", flush=True)
-        print("Verifiez que vous utilisez un App Password Gmail (16 chars)", flush=True)
+        print(f"ERREUR IMAP: {e}", flush=True)
     except Exception as e:
         print(f"ERREUR check_email: {e}", flush=True)
     finally:
@@ -111,7 +113,7 @@ def check_email():
 
 
 # Boucle principale
-print("Surveillance emails toutes les 30s...", flush=True)
+print("Surveillance emails Zoho toutes les 30s...", flush=True)
 cycle = 0
 while True:
     cycle += 1
